@@ -68,8 +68,8 @@
 
             mkdir "$PEER_WORKDIR"
             cd "$PEER_WORKDIR"
-            if [ -f "$DPRINTFILE" ]; then
-                cp "$DPRINTFILE" dprint.conf
+            if [ -f "$LOGGERCONF" ]; then
+                cp "$LOGGERCONF" logger.conf
             fi
             if [ -f "$BOOTSTRAPFILE" ]; then
                 cp "$BOOTSTRAPFILE" bootstraptribler.txt
