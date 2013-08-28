@@ -12,6 +12,9 @@ RESULTDIR=${1:-.}
 # ARGUMENT $2: database filename, default 'try.db'
 DATABASE=${2:-try.db}
 
+# source config file
+source ${RESULTDIR}/config
+
 # run all scripts
 $EVAL/11-parse.py $RESULTDIR log $DATABASE || exit 1
 $EVAL/12-normalize.py $DATABASE || exit 1
