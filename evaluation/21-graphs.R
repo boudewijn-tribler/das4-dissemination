@@ -13,6 +13,7 @@ library(reshape2)
 
 filename_prefix <- Sys.getenv("FILENAME_PREFIX")
 title_postfix <- Sys.getenv("TITLE_POSTFIX")
+total_message_count <- Sys.getenv("TOTAL_MESSAGE_COUNT")
 
 # database connection
 con <- dbConnect("SQLite", dbname="==FILENAME==")
@@ -76,7 +77,7 @@ sqliteCloseResult(res)
 
 p <- ggplot(DATA)
 p <- p + labs(title=paste("Download progress", title_postfix), x="Time (seconds)", y="Records received")
-p <- p + annotate("segment", x=0, y=0, xend=3000/(27/5), yend=3000)
+p <- p + annotate("segment", x=0, y=0, xend=total_message_count/(27/5), yend=total_message_count)
 p <- p + geom_step(aes(x=timestamp, y=received, color=peer))
 p <- p + scale_y_continuous(labels=comma)
 ggsave(filename=paste(filename_prefix, "download_progress.png", sep=""), plot=p)
