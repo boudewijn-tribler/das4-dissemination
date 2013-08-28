@@ -13,7 +13,7 @@ library(reshape2)
 
 filename_prefix <- Sys.getenv("FILENAME_PREFIX")
 title_postfix <- Sys.getenv("TITLE_POSTFIX")
-total_message_count <- Sys.getenv("TOTAL_MESSAGE_COUNT")
+total_message_count <- as.numeric(Sys.getenv("TOTAL_MESSAGE_COUNT"))
 
 # database connection
 con <- dbConnect("SQLite", dbname="==FILENAME==")
