@@ -11,6 +11,7 @@ RESULTDIR=${1:-.}
 
 # ARGUMENT $2: database filename, default 'try.db'
 DATABASE=${2:-try.db}
+rm -f "${DATABASE}"
 
 # source config file
 source ${RESULTDIR}/config
