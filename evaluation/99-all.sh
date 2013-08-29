@@ -15,6 +15,10 @@ source "${RESULTDIR}/config"
 
 # ARGUMENT $2: database filename, default 'try.db'
 DATABASE=${2:-${FILENAME_PREFIX}try.db}
+if [ -f "${DATABASE}" ]; then
+    echo "${DATABASE} already exists, please remove it if you want to re-evaluate all logs"
+    exit 1
+fi
 
 # echo on
 set -o verbose
@@ -22,7 +26,5 @@ set -o verbose
 # run all scripts
 $EVAL/11-parse.py $RESULTDIR log $DATABASE || exit 1
 $EVAL/12-normalize.py $DATABASE || exit 1
-$EVAL/13-dissemination.py $DATABASE || exit 1
 cat $EVAL/21-graphs.R | sed s:==FILENAME==:$DATABASE: | R --no-save --quiet || exit 1
-
-# find . -type f -name dispersy.db -exec sqlite3 -noheader -separator ' ' {} "select meta_message.name, count(*) from sync join meta_message on meta_message.id = sync.meta_message group by sync.meta_message" \; > messages_in_database
+$EVAL/22-success_condition.py $DATABASE || exit 1

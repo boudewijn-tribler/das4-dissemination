@@ -61,6 +61,30 @@ class ScenarioScript(ScenarioScript):
             community = None
             yield delay
 
+    def scenario_message_success_condition(self, message_name, minimum, maximum="DEF"):
+        try:
+            meta_message_id, = self._dispersy.database.execute(u"SELECT id FROM meta_message WHERE name = ?",
+                                                               (unicode(message_name),)).next()
+            count, = self._dispersy.database.execute(u"SELECT COUNT(*) FROM sync WHERE meta_message = ?",
+                                                     (meta_message_id,)).next()
+        except:
+            count = 0
+
+        minimum = int(minimum)
+        maximum = -1 if maximum == "DEF" else int(maximum)
+
+        if maximum == -1:
+            # there is no maximum
+            self.log("success_condition",
+                     success=minimum <= count,
+                     description="%d %s messages in the database (minimum %d)" % (count, message_name, minimum))
+
+        else:
+            assert minimum <= maximum
+            self.log("success-condition",
+                     success=minimum <= count <= maximum,
+                     description="%d %s messages in the database (minimum %d, maximum %d)" % (count, message_name, minimum, maximum))
+
 class FillDatabaseScript(ScriptBase):
     @property
     def enable_wait_for_wan_address(self):
