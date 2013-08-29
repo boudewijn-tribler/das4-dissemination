@@ -11,7 +11,6 @@ if [ ! -f "${RESULTDIR}/config" ]; then
     echo "${RESULTDIR} does not contain config file"
     exit 1
 fi
-cat "${RESULTDIR}/config"
 source "${RESULTDIR}/config"
 
 # ARGUMENT $2: database filename, default 'try.db'
