@@ -25,10 +25,11 @@ con <- dbConnect("SQLite", dbname="==FILENAME==")
 #total_message_count <- 3000
 #con <- dbConnect("SQLite", dbname="~/remote/scratch/pbschoon/resultdir/try.db")
 
-# CPU
+####################
+#       CPU        #
 res <- dbSendQuery(con, statement=paste("SELECT peer.hostname AS hostname, cpu.timestamp AS timestamp, cpu.percentage / 100.0 AS percentage FROM cpu JOIN peer ON peer.id = cpu.peer"))
 DATA <- data.frame(fetch(res, n=-1))
-sqliteCloseResult(res)
+NIL <- sqliteCloseResult(res)
 
 p <- ggplot(DATA, aes(timestamp, percentage, color=hostname))
 p <- p + labs(title=bquote(atop("CPU usage", atop(italic(.(title_postfix))))))
@@ -39,10 +40,11 @@ p <- p + scale_y_continuous(labels=percent)
 p
 ggsave(filename=paste(filename_prefix, "cpu.png", sep=""))
 
-# memory
+####################
+#      memory      #
 res <- dbSendQuery(con, statement=paste("SELECT timestamp, rss, vms FROM memory"))
 DATA <- data.frame(fetch(res, n=-1))
-sqliteCloseResult(res)
+NIL <- sqliteCloseResult(res)
 
 p <- ggplot(DATA, aes(timestamp, vms))
 p <- p + labs(title=bquote(atop("Virtual Memory Size", atop(italic(.(title_postfix))))))
@@ -53,11 +55,12 @@ p <- p + scale_y_continuous(labels=comma)
 p
 ggsave(filename=paste(filename_prefix, "memory.png", sep=""))
 
-# bandwidth
+####################
+#     bandwidth    #
 res <- dbSendQuery(con, statement=paste("SELECT timestamp, up, down FROM bandwidth_rate"))
 DATA <- data.frame(fetch(res, n=-1))
 DATA <- melt(DATA, id=c("timestamp"))
-sqliteCloseResult(res)
+NIL <- sqliteCloseResult(res)
 
 p <- ggplot(DATA, aes(timestamp, value, color=variable))
 p <- p + labs(title=bquote(atop("Bandwidth rate", atop(italic(.(title_postfix))))))
@@ -68,11 +71,12 @@ p <- p + scale_y_continuous(labels=comma)
 p
 ggsave(filename=paste(filename_prefix, "bandwidth.png", sep=""))
 
-# packet success and drop
+###########################
+# packet success and drop #
 res <- dbSendQuery(con, statement=paste("SELECT timestamp, drop_count, delay_count, delay_send, delay_success, delay_timeout, success_count, received_count FROM bandwidth"))
 DATA <- data.frame(fetch(res, n=-1))
 DATA <- melt(DATA, id=c("timestamp"))
-sqliteCloseResult(res)
+NIL <- sqliteCloseResult(res)
 
 p <- ggplot(DATA, aes(timestamp, value, color=variable))
 p <- p + labs(title=bquote(atop("Ability to process received packets", atop(italic(.(title_postfix))))))
@@ -83,11 +87,12 @@ p <- p + scale_y_continuous(labels=comma)
 p
 ggsave(filename=paste(filename_prefix, "success_and_loss.png", sep=""))
 
-# dissemination
+####################
+#  dissemination   #
 res <- dbSendQuery(con, statement="SELECT timestamp, peer FROM received ORDER BY timestamp")
 DATA <- data.frame(fetch(res, n=-1))
 DATA <- within(DATA, { received <- ave(timestamp, peer, FUN=seq)})
-sqliteCloseResult(res)
+NIL <- sqliteCloseResult(res)
 
 p <- ggplot(DATA)
 p <- p + labs(title=bquote(atop("Download progress", atop(italic(.(title_postfix))))))
