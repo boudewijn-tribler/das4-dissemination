@@ -28,7 +28,7 @@ cp "$CONFIG" "$RESULTDIR/config" || exit 1
 preserve -long-list
 
 # submit tasks
-prun -v $PRUNSTART -t "$RUNTIME" -np "$HOSTS" "$SCRIPT" "$CONFIG" | tee "$RESULTDIR/run"
+prun -v $PRUNSTART -t "$RUNTIME" -np "$HOSTS" "$SCRIPT" "$CONFIG" 2>&1 | tee "$RESULTDIR/run"
 
 # print -very- small summary.  more processing should be done elsewhere
 echo "prun returns $?"

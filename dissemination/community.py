@@ -21,7 +21,7 @@ class DisseminationCommunity(Community):
         self._dispersy_sync_bloom_filter_strategy = strategies.get(kargs.get("sync_bloom_filter_strategy", "largest"))
 
     def initiate_meta_messages(self):
-        return [Message(self, u"text", MemberAuthentication(encoding="bin"), PublicResolution(), FullSyncDistribution(enable_sequence_number=False, synchronization_direction=u"ASC", priority=128), CommunityDestination(node_count=0), TextPayload(), self.check_text, self.on_text)]
+        return [Message(self, u"text", MemberAuthentication(encoding="bin"), PublicResolution(), FullSyncDistribution(enable_sequence_number=False, synchronization_direction=u"RANDOM", priority=128), CommunityDestination(node_count=0), TextPayload(), self.check_text, self.on_text)]
 
     def initiate_conversions(self):
         return [DefaultConversion(self), Conversion(self)]
