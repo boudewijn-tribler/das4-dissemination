@@ -1,11 +1,10 @@
-import logging
-logger = logging.getLogger(__name__)
-
 from .community import DisseminationCommunity
 
+from dispersy.logger import get_logger
 from dispersy.script import ScriptBase
 from dispersy.tool.lencoder import bz2log
 from dispersy.tool.scenarioscript import ScenarioScript
+logger = get_logger(__name__)
 
 MASTER_MEMBER_PUBLIC_KEY = "3081a7301006072a8648ce3d020106052b810400270381920004068097a9d88022d0581ce8f9064a575f99d7907a2f1d4c865884e7445a3494484ae6f89e7c69e99697c605d066b16aeb99cb7f7f4be8b24870f88f987d52cd6279909d382cd8626606ec2944526e5bb64b936709d2c7e43b820db5e45697ea98805bcd0708a8eb2fd4377a2d8bafc5a844950e2d7bafd3072416e52b3d25710d377176ec6e1046fd99f6a9b41f816a6f".decode("HEX")
 
