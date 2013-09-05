@@ -23,7 +23,7 @@ con <- dbConnect("SQLite", dbname="==FILENAME==")
 #filename_prefix <- "FILENAME_PREFIX"
 #title_postfix <- "Dummy title postfix [foo, bar, moo, milk]"
 #total_message_count <- 3000
-#con <- dbConnect("SQLite", dbname="~/remote/scratch/pbschoon/resultdir/try.db")
+#con <- dbConnect("SQLite", dbname="~/all_to_all_largest_3000_try.db")
 
 ####################
 #       CPU        #

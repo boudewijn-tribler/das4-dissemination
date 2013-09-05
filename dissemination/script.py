@@ -1,5 +1,5 @@
-import os
-import sqlite3
+import logging
+logger = logging.getLogger(__name__)
 
 from .community import DisseminationCommunity
 
@@ -44,6 +44,15 @@ class ScenarioScript(ScenarioScript):
         community = self.has_community()
         if community:
             community.create_text(" ".join(message).decode("UTF-8"))
+        else:
+            logger.error("Unable to scenario_create_one (not online)")
+
+    def scenario_create_many(self, count, *message):
+        community = self.has_community()
+        if community:
+            community.create_text(" ".join(message).decode("UTF-8"), int(count))
+        else:
+            logger.error("Unable to scenario_create_many (not online)")
 
     def scenario_create_start(self, delay, *message):
         delay = float(delay)
@@ -58,6 +67,8 @@ class ScenarioScript(ScenarioScript):
             community = self.has_community()
             if community:
                 community.create_text(message)
+            else:
+                logger.error("Unable to _create_periodically (not online)")
             community = None
             yield delay
 
@@ -80,10 +91,10 @@ class ScenarioScript(ScenarioScript):
                      description="%d %s messages in the database (minimum %d)" % (count, message_name, minimum))
 
         else:
-            assert minimum <= maximum
             self.log("success-condition",
                      success=minimum <= count <= maximum,
                      description="%d %s messages in the database (minimum %d, maximum %d)" % (count, message_name, minimum, maximum))
+            assert minimum <= maximum
 
 class FillDatabaseScript(ScriptBase):
     @property

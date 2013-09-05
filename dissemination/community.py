@@ -43,15 +43,22 @@ class DisseminationCommunity(Community):
             self._sync_cache = None
         return super(DisseminationCommunity, self).dispersy_claim_sync_bloom_filter(request_cache)
 
-    def create_text(self, text, store=True, update=True, forward=True):
+    def create_text(self, text, count=1, store=True, update=True, forward=True):
         assert isinstance(text, unicode), type(text)
+        assert isinstance(count, int), type(count)
+        assert count > 0, count
         assert len(text.encode("UTF-8")) < 256
         meta = self.get_meta_message(u"text")
-        message = meta.impl(authentication=(self._my_member,),
-                            distribution=(self.claim_global_time(),),
-                            payload=(text,))
-        bz2log("log", "creation", mid=message.authentication.member.mid, global_time=message.distribution.global_time, text=message.payload.text)
-        self._dispersy.store_update_forward([message], store, update, forward)
+        messages = []
+        for _ in xrange(count):
+            message = meta.impl(authentication=(self._my_member,),
+                                distribution=(self.claim_global_time(),),
+                                payload=(text,))
+            messages.append(message)
+            bz2log("log", "creation", mid=message.authentication.member.mid, global_time=message.distribution.global_time, text=message.payload.text)
+
+        with self._dispersy.database:
+            self._dispersy.store_update_forward(messages, store, update, forward)
 
     def check_text(self, messages):
         return messages

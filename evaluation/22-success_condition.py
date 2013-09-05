@@ -8,8 +8,11 @@ This script will exit 0 when:
 - all success condition in the database are positive
 
 This script will exit 1 when:
-- there is one or more negative success conditions in the database
 - there are zero successful success conditions in the database
+
+This script will exit 1 or higher when:
+- there is one or more negative success conditions in the database (the exits value equals the
+  number of negative success conditions)
 """
 
 import sqlite3
@@ -31,7 +34,7 @@ def main():
         if success_count < total_count:
             for peer_id, description in cur.execute(u"SELECT peer, description FROM success_condition WHERE NOT success ORDER BY peer, timestamp"):
                 print "peer", peer_id, "failed:", description
-            code = 1
+            code += 1
 
     else:
         print sys.argv[0], "IN-DATABASE"
