@@ -71,6 +71,9 @@
             if [ -f "$LOGGERCONF" ]; then
                 cp "$LOGGERCONF" logger.conf
             fi
+            if [ -f "$ZEROLOGGERCONF" ] && [ "$PEERNUMBER" == "0" ]; then
+                cp "$ZEROLOGGERCONF" logger.conf
+            fi
             if [ -f "$BOOTSTRAPFILE" ]; then
                 cp "$BOOTSTRAPFILE" bootstraptribler.txt
             fi
@@ -82,7 +85,7 @@
             # $BINARY $BINARYPARAMS "$LOCALCODEDIR/peer.py" $DISPERSYPARAMS --kargs "${DISPERSYKARGS},resultdir=${RESULTDIR},localcodedir=${LOCALCODEDIR},startstamp=${STARTSTAMP},scenario=${LOCALCONFIG},peernumber=${PEERNUMBER},peercount=${TASKS},lowpeernumber=${LOWPEERNUMBER},highpeernumber=${HIGHPEERNUMBER}" > >(tee stdout) 2> >(tee stderr >&2) &
 
             # output to stdout, stderr files, and stderr to console
-            $BINARY $BINARYPARAMS "$LOCALCODEDIR/peer.py" $DISPERSYPARAMS --kargs "${DISPERSYKARGS},resultdir=${RESULTDIR},localcodedir=${LOCALCODEDIR},startstamp=${STARTSTAMP},scenario=${LOCALCONFIG},peernumber=${PEERNUMBER},peercount=${TASKS},lowpeernumber=${LOWPEERNUMBER},highpeernumber=${HIGHPEERNUMBER}" >stdout 2> >(tee stderr >&2) &
+            $BINARY $BINARYPARAMS "$LOCALCODEDIR/peer.py" $DISPERSYPARAMS --log-identifier "${HOSTNAME}_${PEERNUMBER}" --kargs "${DISPERSYKARGS},resultdir=${RESULTDIR},localcodedir=${LOCALCODEDIR},startstamp=${STARTSTAMP},scenario=${LOCALCONFIG},peernumber=${PEERNUMBER},peercount=${TASKS},lowpeernumber=${LOWPEERNUMBER},highpeernumber=${HIGHPEERNUMBER}" >stdout 2> >(tee stderr >&2) &
         done
 
         # batch delay

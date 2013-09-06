@@ -71,7 +71,7 @@ class ScenarioScript(ScenarioScript):
             community = None
             yield delay
 
-    def scenario_message_success_condition(self, message_name, minimum, maximum="DEF"):
+    def scenario_dissemination_success_condition(self, message_name, minimum, maximum="DEF"):
         try:
             meta_message_id, = self._dispersy.database.execute(u"SELECT id FROM meta_message WHERE name = ?",
                                                                (unicode(message_name),)).next()
@@ -86,11 +86,13 @@ class ScenarioScript(ScenarioScript):
         if maximum == -1:
             # there is no maximum
             self.log("success_condition",
+                     type="dissemination",
                      success=minimum <= count,
                      description="%d %s messages in the database (minimum %d)" % (count, message_name, minimum))
 
         else:
             self.log("success-condition",
+                     type="dissemination",
                      success=minimum <= count <= maximum,
                      description="%d %s messages in the database (minimum %d, maximum %d)" % (count, message_name, minimum, maximum))
             assert minimum <= maximum

@@ -28,4 +28,5 @@ $EVAL/11-parse.py $RESULTDIR log $DATABASE || exit 1
 $EVAL/12-normalize.py $DATABASE || exit 1
 cat $EVAL/21-graphs.R | sed s:==FILENAME==:$DATABASE: | R --no-save --quiet || exit 1
 echo ""
+sqlite3 -csv -header $DATABASE "SELECT * FROM success_condition" > success_condition.txt || exit 1
 $EVAL/22-success_condition.py $DATABASE || exit 1

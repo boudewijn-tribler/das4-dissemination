@@ -4,6 +4,9 @@
 During the course of the experiment every peer can evaluate 'success conditions'.  The results of
 these conditions should be parsed and stored in the database table 'success_condition'.
 
+When there is nothing in the database the message "# there are no success conditions in the
+database" will be printed.  Otherwise, the failed conditions are printed.
+
 This script will exit 0 when:
 - all success condition in the database are positive
 
@@ -29,12 +32,13 @@ def main():
         success_count, = cur.execute(u"SELECT COUNT(*) FROM success_condition WHERE success").next()
 
         if total_count == 0:
+            print "# there are no success conditions in the database"
             code = 1
 
         if success_count < total_count:
             for peer_id, description in cur.execute(u"SELECT peer, description FROM success_condition WHERE NOT success ORDER BY peer, timestamp"):
                 print "peer", peer_id, "failed:", description
-            code += 1
+                code += 1
 
     else:
         print sys.argv[0], "IN-DATABASE"
