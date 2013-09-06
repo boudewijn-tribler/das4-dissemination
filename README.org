@@ -1,0 +1,53 @@
+* Introduction
+
+This repository contains the DAS4-dissemination emulation.  It is
+intended to run multiple peers simultaneously while disseminating
+messages in various scenarios.
+
+Each scenario uses its own configuration file and is described below.
+Running a scenario should be as simple as calling =./run.sh CONFIG=
+from your DAS4 account.  Results are stored in
+=/var/scratch/$USER/resultdir-dissemination=.  Run
+=~/das4-dissemination/evaluation/99-all.sh= from this directory to
+evaluate the results.
+
+There is a Jenkins job running these emulations periodically, see
+http://jenkins.tribler.org/job/Experiment_Dissemination_Boudewijn/.
+
+* one_to_all_largest_3000.config
+
+With the one_to_all_largest_3000 emulation a single peer (peer#0)
+starts by generating 3000 messages.  The emulation is considered
+successful when after 15 minutes all peers have obtained all 3000
+messages.
+
+|---------------------+-----------------------+----------------------------------------------------------------|
+| Run time            | 15 minutes            |                                                                |
+| Number of hosts     | 10                    |                                                                |
+| Number of peers     | 500                   |                                                                |
+| Number of messages  | 3000                  | generated on the fly by peer#0                                 |
+| Success condition   | 3000                  | peers must receive 3000 messages                               |
+| Churn               | None                  |                                                                |
+| Message size        | 193, 196, 195.6 bytes | min, max, average                                              |
+| Sync response limit | 5120 bytes / cycle    | i.e. after the 5120 limit is exceeded no more packets are sent |
+| Optimum sync speed  | 27 packet / cycle     |                                                                |
+| Sync strategy       | largest pivot         |                                                                |
+|---------------------+-----------------------+----------------------------------------------------------------|
+
+* one_to_all_modulo_3000.config
+
+Similar to the one_to_all_largest_3000 emulation, except that the
+modulo synchronisation strategy is used.
+
+|---------------------+-----------------------+----------------------------------------------------------------|
+| Run time            | 15 minutes            |                                                                |
+| Number of hosts     | 10                    |                                                                |
+| Number of peers     | 500                   |                                                                |
+| Number of messages  | 3000                  | generated on the fly by peer#0                                 |
+| Success condition   | 3000                  | peers must receive 3000 messages                               |
+| Churn               | None                  |                                                                |
+| Message size        | 193, 196, 195.6 bytes | min, max, average                                              |
+| Sync response limit | 5120 bytes / cycle    | i.e. after the 5120 limit is exceeded no more packets are sent |
+| Optimum sync speed  | 27 packet / cycle     |                                                                |
+| Sync strategy       | modulo                |                                                                |
+|---------------------+-----------------------+----------------------------------------------------------------|
