@@ -35,6 +35,26 @@ The following properties apply to all /3000 messages emulations/.
 | Sync response limit | 5120 bytes / cycle    | once the limit is /exceeded/ no more packets are sent |
 | Optimum sync speed  | 27 packet / cycle     |                                                       |
 
+** Output
+
+Once the emulation and =99-all.sh= have finished you will have several
+graphs for CPU, bandwidth, etc.  With each file prefixed with the name
+of the emulation.  The two most important files are:
+- success_condition.txt :: this text file contains the success
+     conditions for each peer.  In other words, a report for each peer
+     if they were able to obtain sufficient messages.  See
+     [[http://jenkins.tribler.org/job/Experiment_Dissemination_Boudewijn/lastSuccessfulBuild/artifact/one_to_all_modulo_3000_success_condition.txt][one_to_all_modulo_3000_success_condition.txt]] for an example.
+- download_progress.png :: this graph shows how many messages the
+     peers have obtained over time.  The angled line starting in the
+     origin shows what the ideal progress if every peer is able to
+     download its maximum amount of messages every cycle.  The closer
+     that the peers follow this line, the better.  See
+     [[fig:download_progress]].
+
+#+CAPTION: The last successful build for one_to_all_modulo_3000.conf
+#+NAME: fig:downlod_progress
+[[http://jenkins.tribler.org/job/Experiment_Dissemination_Boudewijn/lastSuccessfulBuild/artifact/one_to_all_modulo_3000_download_progress.png]]
+
 ** one_to_all_largest_3000.config
 
 A single peer (peer#0) starts by creating 3000 messages.  Bloom filter
