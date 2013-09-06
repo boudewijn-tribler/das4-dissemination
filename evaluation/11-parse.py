@@ -11,7 +11,7 @@ class DisseminationScenarioParser(ScenarioParser2):
 
         self.cur.execute(u"CREATE TABLE creation (timestamp INTEGER, peer INTEGER, global_time INTEGER)")
         self.cur.execute(u"CREATE TABLE received (timestamp INTEGER, peer INTEGER, creator INTEGER, global_time INTEGER)")
-        self.cur.execute(u"CREATE TABLE success_condition (timestamp INTEGER, peer INTEGER, name TEXT, success INTEGER, description TEXT)")
+        self.cur.execute(u"CREATE TABLE success_condition (timestamp INTEGER, peer INTEGER, type TEXT, success INTEGER, description TEXT)")
 
         self.mapto(self.creation, "creation")
         self.mapto(self.received, "received")
