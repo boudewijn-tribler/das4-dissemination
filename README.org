@@ -32,14 +32,12 @@ messages.
 | Sync response limit | 5120 bytes / cycle    | i.e. after the 5120 limit is exceeded no more packets are sent |
 | Optimum sync speed  | 27 packet / cycle     |                                                                |
 | Sync strategy       | largest pivot         |                                                                |
-|---------------------+-----------------------+----------------------------------------------------------------|
 
 * one_to_all_modulo_3000.config
 
 Similar to the one_to_all_largest_3000 emulation, except that the
 modulo synchronisation strategy is used.
 
-|---------------------+-----------------------+----------------------------------------------------------------|
 | Run time            | 15 minutes            |                                                                |
 | Number of hosts     | 10                    |                                                                |
 | Number of peers     | 500                   |                                                                |
@@ -50,4 +48,3 @@ modulo synchronisation strategy is used.
 | Sync response limit | 5120 bytes / cycle    | i.e. after the 5120 limit is exceeded no more packets are sent |
 | Optimum sync speed  | 27 packet / cycle     |                                                                |
 | Sync strategy       | modulo                |                                                                |
-|---------------------+-----------------------+----------------------------------------------------------------|
